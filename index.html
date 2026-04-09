@@ -7,10 +7,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet" />
-
+ 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
+ 
     :root {
       --navy:       #080d1a;
       --navy-mid:   #0d1628;
@@ -23,9 +23,9 @@
       --glow:       rgba(201,169,110,0.18);
       --error:      #e07070;
     }
-
+ 
     html { scroll-behavior: smooth; }
-
+ 
     body {
       background-color: var(--navy);
       color: var(--cream);
@@ -35,7 +35,7 @@
       overflow-x: hidden;
       position: relative;
     }
-
+ 
     /* ─── STARFIELD ──────────────────────────────── */
     #stars-canvas {
       position: fixed;
@@ -43,7 +43,7 @@
       pointer-events: none;
       z-index: 0;
     }
-
+ 
     /* ─── LAYOUT ─────────────────────────────────── */
     .page {
       position: relative;
@@ -52,7 +52,7 @@
       min-height: 100vh;
     }
     .page.active { display: flex; flex-direction: column; }
-
+ 
     /* ─── HEADER ─────────────────────────────────── */
     header {
       text-align: center;
@@ -82,7 +82,7 @@
       background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
       margin: 28px auto;
     }
-
+ 
     /* ─── FORM PAGE ──────────────────────────────── */
     main {
       flex: 1;
@@ -91,7 +91,7 @@
       align-items: center;
       padding: 0 24px 80px;
     }
-
+ 
     .intro {
       max-width: 560px;
       text-align: center;
@@ -103,7 +103,7 @@
       font-style: italic;
       animation: fadeUp 1.4s ease 0.2s both;
     }
-
+ 
     /* ─── LETTER CARD ────────────────────────────── */
     .letter-card {
       width: 100%;
@@ -125,7 +125,7 @@
       width: 60px; height: 2px;
       background: linear-gradient(90deg, transparent, var(--gold), transparent);
     }
-
+ 
     .field-label {
       display: block;
       font-size: 0.68rem;
@@ -134,8 +134,7 @@
       color: var(--gold-dim);
       margin-bottom: 10px;
     }
-
-    /* textarea – the journal */
+ 
     .journal-area {
       width: 100%;
       min-height: 280px;
@@ -160,7 +159,7 @@
     .journal-area:focus {
       border-bottom-color: rgba(201,169,110,0.45);
     }
-
+ 
     .fields-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -171,9 +170,9 @@
       .fields-row { grid-template-columns: 1fr; }
       .letter-card { padding: 28px 22px 32px; }
     }
-
+ 
     .field-group { display: flex; flex-direction: column; }
-
+ 
     .text-input {
       background: transparent;
       border: none;
@@ -190,14 +189,13 @@
     }
     .text-input:focus { border-bottom-color: rgba(201,169,110,0.5); }
     .text-input::placeholder { color: rgba(240,232,216,0.25); }
-
-    /* date input calendar icon tint */
+ 
     .text-input[type="date"]::-webkit-calendar-picker-indicator {
       filter: invert(0.5) sepia(1) saturate(2) hue-rotate(5deg) brightness(0.85);
       cursor: pointer;
       opacity: 0.5;
     }
-
+ 
     .field-error {
       font-size: 0.7rem;
       color: var(--error);
@@ -205,8 +203,7 @@
       min-height: 14px;
       letter-spacing: 0.05em;
     }
-
-    /* ─── CHAR COUNTER ───────────────────────────── */
+ 
     .char-counter {
       text-align: right;
       font-size: 0.68rem;
@@ -214,8 +211,7 @@
       opacity: 0.35;
       margin-top: 6px;
     }
-
-    /* ─── SUBMIT BUTTON ──────────────────────────── */
+ 
     .btn-seal {
       display: block;
       width: 100%;
@@ -255,8 +251,7 @@
     }
     .btn-seal.loading .btn-text { display: none; }
     .btn-seal.loading .spinner { display: block; }
-
-    /* ─── GLOBAL ERROR ───────────────────────────── */
+ 
     .global-error {
       margin-top: 14px;
       text-align: center;
@@ -265,7 +260,7 @@
       min-height: 18px;
       letter-spacing: 0.05em;
     }
-
+ 
     /* ─── CONFIRMATION PAGE ──────────────────────── */
     #confirm-page {
       justify-content: center;
@@ -323,7 +318,7 @@
       animation: fadeUp 1s ease 0.8s both;
     }
     .btn-again:hover { opacity: 1; }
-
+ 
     /* ─── FOOTER ─────────────────────────────────── */
     footer {
       position: relative; z-index: 1;
@@ -335,7 +330,7 @@
       opacity: 0.25;
       text-transform: uppercase;
     }
-
+ 
     /* ─── ANIMATIONS ─────────────────────────────── */
     @keyframes fadeDown {
       from { opacity: 0; transform: translateY(-20px); }
@@ -356,12 +351,107 @@
       0%,100% { opacity: 0.12; }
       50%      { opacity: 0.28; }
     }
+ 
+    /* ─── MUSIC BUTTON ───────────────────────────── */
+    #music-btn {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      z-index: 100;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid rgba(201,169,110,0.3);
+      background: rgba(8,13,26,0.75);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      color: var(--gold-dim);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 0.3s, color 0.3s, box-shadow 0.3s, opacity 0.3s;
+      opacity: 0;                   /* starts invisible, fades in after music loads */
+      animation: none;
+      padding: 0;
+    }
+    #music-btn.visible {
+      opacity: 1;
+      transition: border-color 0.3s, color 0.3s, box-shadow 0.3s, opacity 1.2s ease;
+    }
+    #music-btn:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      box-shadow: 0 0 18px rgba(201,169,110,0.2);
+    }
+    #music-btn svg {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
+ 
+    /* Subtle pulse ring when music is playing */
+    #music-btn.playing::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      border: 1px solid rgba(201,169,110,0.18);
+      animation: musicPulse 3s ease-in-out infinite;
+      pointer-events: none;
+    }
+    @keyframes musicPulse {
+      0%,100% { transform: scale(1);   opacity: 0.6; }
+      50%      { transform: scale(1.2); opacity: 0;   }
+    }
+ 
+    /* Tooltip */
+    #music-btn::before {
+      content: attr(data-tooltip);
+      position: absolute;
+      right: calc(100% + 10px);
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(8,13,26,0.9);
+      border: 1px solid rgba(201,169,110,0.15);
+      color: var(--cream-dim);
+      font-family: 'Lato', sans-serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 5px 10px;
+      border-radius: 2px;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+    }
+    #music-btn:hover::before { opacity: 1; }
   </style>
 </head>
 <body>
-
+ 
 <canvas id="stars-canvas"></canvas>
-
+ 
+<!-- ═══ MUSIC CONTROL BUTTON ══════════════════════════════ -->
+<button
+  id="music-btn"
+  aria-label="Toggle ambient music"
+  data-tooltip="Ambient music"
+>
+  <!-- Speaker / mute icon — swapped by JS -->
+  <svg id="icon-sound" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+  </svg>
+  <svg id="icon-mute" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+    <line x1="23" y1="9" x2="17" y2="15"/>
+    <line x1="17" y1="9" x2="23" y2="15"/>
+  </svg>
+</button>
+ 
 <!-- ═══ FORM PAGE ════════════════════════════════════════ -->
 <div id="form-page" class="page active">
   <header>
@@ -369,15 +459,14 @@
     <div class="tagline">Letters to Your Future Self</div>
     <div class="divider"></div>
   </header>
-
+ 
   <main>
     <p class="intro">
       Write the words you need your future self to remember.
       We'll keep them safe and deliver them exactly when the time comes.
     </p>
-
+ 
     <div class="letter-card">
-      <!-- Letter textarea -->
       <label class="field-label" for="letter">Your Letter</label>
       <textarea
         id="letter"
@@ -388,9 +477,8 @@
       ></textarea>
       <div class="char-counter"><span id="char-count">0</span> / 10,000</div>
       <div class="field-error" id="letter-error"></div>
-
+ 
       <div class="fields-row">
-        <!-- Email -->
         <div class="field-group">
           <label class="field-label" for="email">Your Email</label>
           <input
@@ -402,8 +490,7 @@
           />
           <div class="field-error" id="email-error"></div>
         </div>
-
-        <!-- Delivery date -->
+ 
         <div class="field-group">
           <label class="field-label" for="delivery-date">Deliver On</label>
           <input
@@ -414,7 +501,7 @@
           <div class="field-error" id="date-error"></div>
         </div>
       </div>
-
+ 
       <button class="btn-seal" id="send-btn">
         <span class="btn-text">Seal &amp; Send to the Future</span>
         <span class="spinner"></span>
@@ -422,10 +509,10 @@
       <div class="global-error" id="global-error"></div>
     </div>
   </main>
-
+ 
   <footer>© TimeCapsula — Your words, preserved across time</footer>
 </div>
-
+ 
 <!-- ═══ CONFIRMATION PAGE ═══════════════════════════════ -->
 <div id="confirm-page" class="page">
   <div class="seal-icon">✦</div>
@@ -438,19 +525,19 @@
   <div class="confirm-date" id="confirm-date-label">Delivering on —</div>
   <button class="btn-again" id="write-another">Write another letter →</button>
 </div>
-
+ 
 <script>
   /* ─── STARS ─────────────────────────────────────────── */
   (function() {
     const canvas = document.getElementById('stars-canvas');
     const ctx = canvas.getContext('2d');
     let stars = [];
-
+ 
     function resize() {
       canvas.width  = window.innerWidth;
       canvas.height = window.innerHeight;
     }
-
+ 
     function initStars() {
       stars = [];
       const count = Math.floor((canvas.width * canvas.height) / 4200);
@@ -464,7 +551,7 @@
         });
       }
     }
-
+ 
     function draw() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       for (const s of stars) {
@@ -477,13 +564,13 @@
       }
       requestAnimationFrame(draw);
     }
-
+ 
     window.addEventListener('resize', () => { resize(); initStars(); });
     resize();
     initStars();
     draw();
   })();
-
+ 
   /* ─── DATE MIN ───────────────────────────────────────── */
   (function() {
     const input = document.getElementById('delivery-date');
@@ -491,28 +578,28 @@
     tomorrow.setDate(tomorrow.getDate() + 1);
     input.min = tomorrow.toISOString().split('T')[0];
   })();
-
+ 
   /* ─── CHAR COUNT ─────────────────────────────────────── */
-  const letterTA   = document.getElementById('letter');
-  const charCount  = document.getElementById('char-count');
+  const letterTA  = document.getElementById('letter');
+  const charCount = document.getElementById('char-count');
   letterTA.addEventListener('input', () => {
     charCount.textContent = letterTA.value.length.toLocaleString();
   });
-
+ 
   /* ─── FORM VALIDATION ────────────────────────────────── */
   function clearErrors() {
     ['letter-error','email-error','date-error','global-error'].forEach(id => {
       document.getElementById(id).textContent = '';
     });
   }
-
+ 
   function validate() {
     clearErrors();
     let valid = true;
     const letter = letterTA.value.trim();
     const email  = document.getElementById('email').value.trim();
     const date   = document.getElementById('delivery-date').value;
-
+ 
     if (!letter) {
       document.getElementById('letter-error').textContent = 'Your letter cannot be empty.';
       valid = false;
@@ -520,13 +607,13 @@
       document.getElementById('letter-error').textContent = 'Write a little more — your future self deserves it.';
       valid = false;
     }
-
+ 
     const emailRx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!email || !emailRx.test(email)) {
       document.getElementById('email-error').textContent = 'Please enter a valid email address.';
       valid = false;
     }
-
+ 
     if (!date) {
       document.getElementById('date-error').textContent = 'Choose a delivery date.';
       valid = false;
@@ -541,48 +628,47 @@
     }
     return valid;
   }
-
+ 
   /* ─── SUBMIT ─────────────────────────────────────────── */
   const sendBtn = document.getElementById('send-btn');
-
+ 
   sendBtn.addEventListener('click', async () => {
     if (!validate()) return;
-
+ 
     sendBtn.classList.add('loading');
     sendBtn.disabled = true;
-
+ 
     const payload = {
       letter:        letterTA.value.trim(),
       email:         document.getElementById('email').value.trim(),
       delivery_date: document.getElementById('delivery-date').value,
     };
-
+ 
     try {
       const res = await fetch('/api/letters', {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
         body:    JSON.stringify(payload),
       });
-
+ 
       const data = await res.json();
-
+ 
       if (!res.ok) {
         throw new Error(data.error || 'Something went wrong. Please try again.');
       }
-
-      // Show confirm page
+ 
       const formatted = new Date(payload.delivery_date + 'T00:00:00')
         .toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' });
       document.getElementById('confirm-date-label').textContent = `Delivering on ${formatted}`;
       showPage('confirm-page');
-
+ 
     } catch (err) {
       document.getElementById('global-error').textContent = err.message;
       sendBtn.classList.remove('loading');
       sendBtn.disabled = false;
     }
   });
-
+ 
   /* ─── WRITE ANOTHER ──────────────────────────────────── */
   document.getElementById('write-another').addEventListener('click', () => {
     letterTA.value = '';
@@ -594,13 +680,295 @@
     sendBtn.disabled = false;
     showPage('form-page');
   });
-
+ 
   /* ─── PAGE SWITCHING ─────────────────────────────────── */
   function showPage(id) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById(id).classList.add('active');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
+ 
+  /* ═══════════════════════════════════════════════════════
+     AMBIENT MUSIC ENGINE — Web Audio API
+     Generates soft cinematic piano-like tones with:
+     • Slow harmonic pads (strings feel)
+     • Gentle melodic note sequence (piano-like)
+     • Reverb via convolver
+     • Master volume fades in slowly over ~8 seconds
+     • Mute / unmute button in bottom-right corner
+  ═══════════════════════════════════════════════════════ */
+  (function() {
+    const btn        = document.getElementById('music-btn');
+    const iconSound  = document.getElementById('icon-sound');
+    const iconMute   = document.getElementById('icon-mute');
+ 
+    let audioCtx     = null;
+    let masterGain   = null;
+    let reverbNode   = null;
+    let isMuted      = false;
+    let started      = false;
+    let fadeInterval = null;
+ 
+    /* Target volume — intentionally very quiet */
+    const TARGET_VOL = 0.08;
+    const FADE_DURATION_MS = 8000;   // 8 second fade-in
+    const FADE_STEPS       = 120;
+ 
+    /* ── Pentatonic melody notes (Hz) — soft & non-intrusive ── */
+    const MELODY = [
+      261.63, 293.66, 329.63, 392.00, 440.00,   // C4 D4 E4 G4 A4
+      392.00, 329.63, 293.66, 261.63, 220.00,   // descending
+      246.94, 261.63, 293.66, 329.63, 293.66,   // slight variation
+    ];
+ 
+    /* ── Pad chord frequencies (gentle harmonic background) ── */
+    const PADS = [
+      [130.81, 164.81, 196.00],   // C3 E3 G3
+      [146.83, 185.00, 220.00],   // D3 F#3 A3
+      [123.47, 155.56, 185.00],   // B2 Eb3 F#3
+    ];
+ 
+    /* ── Create convolver reverb (impulse-response approximation) ── */
+    function createReverb(ctx) {
+      const convolver = ctx.createConvolver();
+      const sampleRate = ctx.sampleRate;
+      const length = sampleRate * 3.5;         // 3.5 s tail
+      const impulse = ctx.createBuffer(2, length, sampleRate);
+      for (let c = 0; c < 2; c++) {
+        const data = impulse.getChannelData(c);
+        for (let i = 0; i < length; i++) {
+          // exponential decay noise — classic reverb IR approximation
+          data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / length, 2.8);
+        }
+      }
+      convolver.buffer = impulse;
+      return convolver;
+    }
+ 
+    /* ── Soft piano-like tone: sine + slight 2nd harmonic ── */
+    function playNote(freq, startTime, duration, gainAmt) {
+      const osc1 = audioCtx.createOscillator();
+      const osc2 = audioCtx.createOscillator();
+      const envGain = audioCtx.createGain();
+      const dryGain = audioCtx.createGain();
+      const wetGain = audioCtx.createGain();
+ 
+      osc1.type = 'sine';
+      osc1.frequency.setValueAtTime(freq, startTime);
+ 
+      osc2.type = 'sine';
+      osc2.frequency.setValueAtTime(freq * 2.001, startTime);  // slight detune for warmth
+ 
+      // Envelope: quick attack, slow decay, long release
+      envGain.gain.setValueAtTime(0, startTime);
+      envGain.gain.linearRampToValueAtTime(gainAmt, startTime + 0.05);
+      envGain.gain.exponentialRampToValueAtTime(gainAmt * 0.4, startTime + duration * 0.3);
+      envGain.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
+ 
+      dryGain.gain.value = 0.55;
+      wetGain.gain.value = 0.45;
+ 
+      osc1.connect(envGain);
+      osc2.connect(envGain);
+ 
+      // Dry path → master
+      envGain.connect(dryGain);
+      dryGain.connect(masterGain);
+ 
+      // Wet path → reverb → master
+      envGain.connect(wetGain);
+      wetGain.connect(reverbNode);
+ 
+      osc1.start(startTime);
+      osc1.stop(startTime + duration + 0.1);
+      osc2.start(startTime);
+      osc2.stop(startTime + duration + 0.1);
+    }
+ 
+    /* ── Slow pad chord — sine waves layered softly ── */
+    function playPad(freqs, startTime, duration, gainAmt) {
+      freqs.forEach(freq => {
+        const osc     = audioCtx.createOscillator();
+        const lfo     = audioCtx.createOscillator();     // gentle tremolo
+        const lfoGain = audioCtx.createGain();
+        const env     = audioCtx.createGain();
+        const wet     = audioCtx.createGain();
+ 
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, startTime);
+ 
+        lfo.type = 'sine';
+        lfo.frequency.setValueAtTime(0.18, startTime);  // very slow tremolo
+        lfoGain.gain.value = freq * 0.003;              // tiny pitch mod for shimmer
+        lfo.connect(lfoGain);
+        lfoGain.connect(osc.frequency);
+ 
+        env.gain.setValueAtTime(0, startTime);
+        env.gain.linearRampToValueAtTime(gainAmt, startTime + 1.8);
+        env.gain.setValueAtTime(gainAmt, startTime + duration - 1.8);
+        env.gain.linearRampToValueAtTime(0, startTime + duration);
+ 
+        wet.gain.value = 0.6;
+ 
+        osc.connect(env);
+        env.connect(masterGain);        // dry
+        env.connect(wet);
+        wet.connect(reverbNode);        // wet (reverb)
+ 
+        lfo.start(startTime);
+        osc.start(startTime);
+        osc.stop(startTime + duration + 0.05);
+        lfo.stop(startTime + duration + 0.05);
+      });
+    }
+ 
+    /* ── Schedule the full ambient piece in a looping pattern ── */
+    function scheduleMusic() {
+      const now = audioCtx.currentTime + 0.1;
+ 
+      /* ── Melody sequence ── */
+      let t = now;
+      const noteDur   = 2.8;
+      const noteGap   = 3.4;
+      const noteVol   = 0.022;
+ 
+      MELODY.forEach((freq, i) => {
+        playNote(freq, t + i * noteGap, noteDur, noteVol);
+      });
+ 
+      /* ── Pad chords — each sustains for ~12 s, cycling every 14 s ── */
+      const padDur = 13.0;
+      const padGap = 14.0;
+      const padVol = 0.012;
+ 
+      PADS.forEach((chord, i) => {
+        playPad(chord, now + i * padGap, padDur, padVol);
+      });
+ 
+      /* ── Re-schedule loop slightly before the sequence ends ── */
+      const loopAfter = MELODY.length * noteGap + 4;   // ~55 s
+      setTimeout(scheduleMusic, loopAfter * 1000);
+    }
+ 
+    /* ── Fade masterGain in slowly ── */
+    function fadeIn() {
+      if (fadeInterval) clearInterval(fadeInterval);
+      const step = TARGET_VOL / FADE_STEPS;
+      const intervalMs = FADE_DURATION_MS / FADE_STEPS;
+      let vol = masterGain.gain.value;
+ 
+      fadeInterval = setInterval(() => {
+        vol = Math.min(vol + step, TARGET_VOL);
+        masterGain.gain.setValueAtTime(vol, audioCtx.currentTime);
+        if (vol >= TARGET_VOL) clearInterval(fadeInterval);
+      }, intervalMs);
+    }
+ 
+    /* ── Fade masterGain out quickly ── */
+    function fadeOut(callback) {
+      if (fadeInterval) clearInterval(fadeInterval);
+      const steps = 40;
+      const intervalMs = 600 / steps;
+      let vol = masterGain.gain.value;
+      const step = vol / steps;
+ 
+      fadeInterval = setInterval(() => {
+        vol = Math.max(vol - step, 0);
+        masterGain.gain.setValueAtTime(vol, audioCtx.currentTime);
+        if (vol <= 0) {
+          clearInterval(fadeInterval);
+          if (callback) callback();
+        }
+      }, intervalMs);
+    }
+ 
+    /* ── Initialise AudioContext and start music ── */
+    function startMusic() {
+      if (started) return;
+      started = true;
+ 
+      audioCtx   = new (window.AudioContext || window.webkitAudioContext)();
+      masterGain = audioCtx.createGain();
+      masterGain.gain.setValueAtTime(0, audioCtx.currentTime);
+ 
+      reverbNode = createReverb(audioCtx);
+      reverbNode.connect(masterGain);
+      masterGain.connect(audioCtx.destination);
+ 
+      scheduleMusic();
+      fadeIn();
+ 
+      /* Show the button after music is primed */
+      setTimeout(() => {
+        btn.classList.add('visible', 'playing');
+        btn.setAttribute('data-tooltip', 'Mute music');
+      }, 1200);
+    }
+ 
+    /* ── First interaction → start audio (browser policy) ── */
+    function onFirstInteraction() {
+      document.removeEventListener('click',     onFirstInteraction);
+      document.removeEventListener('keydown',   onFirstInteraction);
+      document.removeEventListener('touchstart',onFirstInteraction);
+      document.removeEventListener('scroll',    onFirstInteraction);
+      startMusic();
+    }
+ 
+    /* Try to autoplay immediately; fall back to first interaction */
+    window.addEventListener('load', () => {
+      // Small delay so page renders first, then try silent autoplay
+      setTimeout(() => {
+        try {
+          const testCtx = new (window.AudioContext || window.webkitAudioContext)();
+          if (testCtx.state === 'running') {
+            testCtx.close();
+            startMusic();
+          } else {
+            testCtx.close();
+            // Browser blocked autoplay — wait for any user interaction
+            document.addEventListener('click',      onFirstInteraction, { once: true });
+            document.addEventListener('keydown',    onFirstInteraction, { once: true });
+            document.addEventListener('touchstart', onFirstInteraction, { once: true });
+            document.addEventListener('scroll',     onFirstInteraction, { once: true });
+          }
+        } catch(e) {
+          document.addEventListener('click',      onFirstInteraction, { once: true });
+          document.addEventListener('keydown',    onFirstInteraction, { once: true });
+          document.addEventListener('touchstart', onFirstInteraction, { once: true });
+        }
+      }, 800);
+    });
+ 
+    /* ── Mute / Unmute toggle ── */
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();   // don't trigger the onFirstInteraction listener
+ 
+      if (!started) {
+        startMusic();
+        return;
+      }
+ 
+      if (!isMuted) {
+        /* Mute */
+        isMuted = true;
+        fadeOut();
+        iconSound.style.display = 'none';
+        iconMute.style.display  = 'block';
+        btn.classList.remove('playing');
+        btn.setAttribute('data-tooltip', 'Unmute music');
+      } else {
+        /* Unmute */
+        isMuted = false;
+        iconSound.style.display = 'block';
+        iconMute.style.display  = 'none';
+        btn.classList.add('playing');
+        btn.setAttribute('data-tooltip', 'Mute music');
+        fadeIn();
+      }
+    });
+ 
+  })();
 </script>
 </body>
 </html>
+ 
