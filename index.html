@@ -44,6 +44,111 @@
       z-index: 0;
     }
  
+    /* ─── MUSIC OVERLAY ──────────────────────────── */
+    #music-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(8,13,26,0.78);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      animation: fadeIn 1s ease both;
+      transition: opacity 0.6s ease;
+    }
+    #music-overlay.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .overlay-card {
+      background: var(--navy-mid);
+      border: 1px solid rgba(201,169,110,0.18);
+      border-radius: 4px;
+      padding: 42px 48px 38px;
+      text-align: center;
+      max-width: 340px;
+      width: 90%;
+      position: relative;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.65), inset 0 1px 0 rgba(201,169,110,0.08);
+      animation: fadeUp 1s ease 0.15s both;
+    }
+    .overlay-card::before {
+      content: '';
+      position: absolute;
+      top: -1px; left: 50%;
+      transform: translateX(-50%);
+      width: 48px; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+    .overlay-eyebrow {
+      font-size: 0.62rem;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+      margin-bottom: 16px;
+      opacity: 0.75;
+    }
+    .overlay-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 1.35rem;
+      color: var(--cream);
+      line-height: 1.45;
+      margin-bottom: 8px;
+    }
+    .overlay-sub {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 0.92rem;
+      color: rgba(200,191,175,0.52);
+      line-height: 1.7;
+      margin-bottom: 30px;
+    }
+    .overlay-btns {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+    }
+    #overlay-yes {
+      padding: 11px 30px;
+      background: transparent;
+      border: 1px solid var(--gold-dim);
+      color: var(--gold);
+      font-family: 'Lato', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 400;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: 2px;
+      transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+    }
+    #overlay-yes:hover {
+      background: var(--mist);
+      border-color: var(--gold);
+      box-shadow: 0 0 22px var(--glow);
+    }
+    #overlay-skip {
+      padding: 11px 22px;
+      background: transparent;
+      border: 1px solid rgba(240,232,216,0.1);
+      color: rgba(240,232,216,0.3);
+      font-family: 'Lato', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 300;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: 2px;
+      transition: border-color 0.3s, color 0.3s;
+    }
+    #overlay-skip:hover {
+      border-color: rgba(240,232,216,0.22);
+      color: rgba(240,232,216,0.5);
+    }
+ 
     /* ─── LAYOUT ─────────────────────────────────── */
     .page {
       position: relative;
@@ -58,6 +163,19 @@
       text-align: center;
       padding: 56px 24px 0;
       animation: fadeDown 1.2s ease both;
+    }
+    .brand-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      margin-bottom: 4px;
+    }
+    .logo-mark {
+      width: 40px;
+      height: 40px;
+      flex-shrink: 0;
+      opacity: 0.92;
     }
     .brand {
       font-family: 'Cormorant Garamond', serif;
@@ -169,6 +287,7 @@
     @media (max-width: 520px) {
       .fields-row { grid-template-columns: 1fr; }
       .letter-card { padding: 28px 22px 32px; }
+      .overlay-card { padding: 32px 28px 30px; }
     }
  
     .field-group { display: flex; flex-direction: column; }
@@ -332,6 +451,10 @@
     }
  
     /* ─── ANIMATIONS ─────────────────────────────── */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
     @keyframes fadeDown {
       from { opacity: 0; transform: translateY(-20px); }
       to   { opacity: 1; transform: translateY(0); }
@@ -346,10 +469,6 @@
     }
     @keyframes spin {
       to { transform: rotate(360deg); }
-    }
-    @keyframes shimmer {
-      0%,100% { opacity: 0.12; }
-      50%      { opacity: 0.28; }
     }
  
     /* ─── MUSIC BUTTON ───────────────────────────── */
@@ -371,8 +490,7 @@
       align-items: center;
       justify-content: center;
       transition: border-color 0.3s, color 0.3s, box-shadow 0.3s, opacity 0.3s;
-      opacity: 0;                   /* starts invisible, fades in after music loads */
-      animation: none;
+      opacity: 0;
       padding: 0;
     }
     #music-btn.visible {
@@ -389,8 +507,6 @@
       height: 16px;
       flex-shrink: 0;
     }
- 
-    /* Subtle pulse ring when music is playing */
     #music-btn.playing::after {
       content: '';
       position: absolute;
@@ -404,8 +520,6 @@
       0%,100% { transform: scale(1);   opacity: 0.6; }
       50%      { transform: scale(1.2); opacity: 0;   }
     }
- 
-    /* Tooltip */
     #music-btn::before {
       content: attr(data-tooltip);
       position: absolute;
@@ -433,13 +547,25 @@
  
 <canvas id="stars-canvas"></canvas>
  
+<!-- ═══ MUSIC INVITE OVERLAY ════════════════════════════ -->
+<div id="music-overlay">
+  <div class="overlay-card">
+    <div class="overlay-eyebrow">A gentle invitation</div>
+    <div class="overlay-title">Play ambient music?</div>
+    <div class="overlay-sub">Soft piano tones composed<br>to accompany your writing</div>
+    <div class="overlay-btns">
+      <button id="overlay-yes">&#9833;&nbsp; Play</button>
+      <button id="overlay-skip">Skip</button>
+    </div>
+  </div>
+</div>
+ 
 <!-- ═══ MUSIC CONTROL BUTTON ══════════════════════════════ -->
 <button
   id="music-btn"
   aria-label="Toggle ambient music"
   data-tooltip="Ambient music"
 >
-  <!-- Speaker / mute icon — swapped by JS -->
   <svg id="icon-sound" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
     <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
     <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
@@ -455,7 +581,25 @@
 <!-- ═══ FORM PAGE ════════════════════════════════════════ -->
 <div id="form-page" class="page active">
   <header>
-    <div class="brand">Time<span>Capsula</span></div>
+    <div class="brand-row">
+      <!-- Clock logo mark -->
+      <svg class="logo-mark" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="26" cy="26" r="23" fill="none" stroke="#c9a96e" stroke-width="0.75" opacity="0.35"/>
+        <circle cx="26" cy="26" r="17" fill="none" stroke="#c9a96e" stroke-width="0.5" opacity="0.25"/>
+        <circle cx="26" cy="26" r="1.6" fill="#c9a96e" opacity="0.9"/>
+        <!-- Minute hand — pointing to 12 -->
+        <line x1="26" y1="26" x2="26" y2="11" stroke="#c9a96e" stroke-width="1" stroke-linecap="round" opacity="0.9"/>
+        <!-- Hour hand — pointing to ~2 -->
+        <line x1="26" y1="26" x2="34" y2="22" stroke="#c9a96e" stroke-width="0.75" stroke-linecap="round" opacity="0.65"/>
+        <!-- Cardinal tick marks -->
+        <path d="M26 3 L27.2 7 L26 6.4 L24.8 7 Z" fill="#c9a96e" opacity="0.5"/>
+        <path d="M49 26 L45 27.2 L45.6 26 L45 24.8 Z" fill="#c9a96e" opacity="0.3"/>
+        <path d="M3 26 L7 24.8 L6.4 26 L7 27.2 Z" fill="#c9a96e" opacity="0.3"/>
+        <path d="M26 49 L24.8 45 L26 45.6 L27.2 45 Z" fill="#c9a96e" opacity="0.3"/>
+        <circle cx="26" cy="3" r="1" fill="#c9a96e" opacity="0.6"/>
+      </svg>
+      <div class="brand">Time<span>Capsula</span></div>
+    </div>
     <div class="tagline">Letters to Your Future Self</div>
     <div class="divider"></div>
   </header>
@@ -690,12 +834,6 @@
  
   /* ═══════════════════════════════════════════════════════
      AMBIENT MUSIC ENGINE — Web Audio API
-     Generates soft cinematic piano-like tones with:
-     • Slow harmonic pads (strings feel)
-     • Gentle melodic note sequence (piano-like)
-     • Reverb via convolver
-     • Master volume fades in slowly over ~8 seconds
-     • Mute / unmute button in bottom-right corner
   ═══════════════════════════════════════════════════════ */
   (function() {
     const btn        = document.getElementById('music-btn');
@@ -709,35 +847,30 @@
     let started      = false;
     let fadeInterval = null;
  
-    /* Target volume — intentionally very quiet */
-    const TARGET_VOL = 0.08;
-    const FADE_DURATION_MS = 8000;   // 8 second fade-in
+    const TARGET_VOL       = 0.08;
+    const FADE_DURATION_MS = 8000;
     const FADE_STEPS       = 120;
  
-    /* ── Pentatonic melody notes (Hz) — soft & non-intrusive ── */
     const MELODY = [
-      261.63, 293.66, 329.63, 392.00, 440.00,   // C4 D4 E4 G4 A4
-      392.00, 329.63, 293.66, 261.63, 220.00,   // descending
-      246.94, 261.63, 293.66, 329.63, 293.66,   // slight variation
+      261.63, 293.66, 329.63, 392.00, 440.00,
+      392.00, 329.63, 293.66, 261.63, 220.00,
+      246.94, 261.63, 293.66, 329.63, 293.66,
     ];
  
-    /* ── Pad chord frequencies (gentle harmonic background) ── */
     const PADS = [
-      [130.81, 164.81, 196.00],   // C3 E3 G3
-      [146.83, 185.00, 220.00],   // D3 F#3 A3
-      [123.47, 155.56, 185.00],   // B2 Eb3 F#3
+      [130.81, 164.81, 196.00],
+      [146.83, 185.00, 220.00],
+      [123.47, 155.56, 185.00],
     ];
  
-    /* ── Create convolver reverb (impulse-response approximation) ── */
     function createReverb(ctx) {
       const convolver = ctx.createConvolver();
       const sampleRate = ctx.sampleRate;
-      const length = sampleRate * 3.5;         // 3.5 s tail
+      const length = sampleRate * 3.5;
       const impulse = ctx.createBuffer(2, length, sampleRate);
       for (let c = 0; c < 2; c++) {
         const data = impulse.getChannelData(c);
         for (let i = 0; i < length; i++) {
-          // exponential decay noise — classic reverb IR approximation
           data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / length, 2.8);
         }
       }
@@ -745,7 +878,6 @@
       return convolver;
     }
  
-    /* ── Soft piano-like tone: sine + slight 2nd harmonic ── */
     function playNote(freq, startTime, duration, gainAmt) {
       const osc1 = audioCtx.createOscillator();
       const osc2 = audioCtx.createOscillator();
@@ -755,11 +887,9 @@
  
       osc1.type = 'sine';
       osc1.frequency.setValueAtTime(freq, startTime);
- 
       osc2.type = 'sine';
-      osc2.frequency.setValueAtTime(freq * 2.001, startTime);  // slight detune for warmth
+      osc2.frequency.setValueAtTime(freq * 2.001, startTime);
  
-      // Envelope: quick attack, slow decay, long release
       envGain.gain.setValueAtTime(0, startTime);
       envGain.gain.linearRampToValueAtTime(gainAmt, startTime + 0.05);
       envGain.gain.exponentialRampToValueAtTime(gainAmt * 0.4, startTime + duration * 0.3);
@@ -770,36 +900,28 @@
  
       osc1.connect(envGain);
       osc2.connect(envGain);
- 
-      // Dry path → master
       envGain.connect(dryGain);
       dryGain.connect(masterGain);
- 
-      // Wet path → reverb → master
       envGain.connect(wetGain);
       wetGain.connect(reverbNode);
  
-      osc1.start(startTime);
-      osc1.stop(startTime + duration + 0.1);
-      osc2.start(startTime);
-      osc2.stop(startTime + duration + 0.1);
+      osc1.start(startTime); osc1.stop(startTime + duration + 0.1);
+      osc2.start(startTime); osc2.stop(startTime + duration + 0.1);
     }
  
-    /* ── Slow pad chord — sine waves layered softly ── */
     function playPad(freqs, startTime, duration, gainAmt) {
       freqs.forEach(freq => {
         const osc     = audioCtx.createOscillator();
-        const lfo     = audioCtx.createOscillator();     // gentle tremolo
+        const lfo     = audioCtx.createOscillator();
         const lfoGain = audioCtx.createGain();
         const env     = audioCtx.createGain();
         const wet     = audioCtx.createGain();
  
         osc.type = 'sine';
         osc.frequency.setValueAtTime(freq, startTime);
- 
         lfo.type = 'sine';
-        lfo.frequency.setValueAtTime(0.18, startTime);  // very slow tremolo
-        lfoGain.gain.value = freq * 0.003;              // tiny pitch mod for shimmer
+        lfo.frequency.setValueAtTime(0.18, startTime);
+        lfoGain.gain.value = freq * 0.003;
         lfo.connect(lfoGain);
         lfoGain.connect(osc.frequency);
  
@@ -809,54 +931,35 @@
         env.gain.linearRampToValueAtTime(0, startTime + duration);
  
         wet.gain.value = 0.6;
- 
         osc.connect(env);
-        env.connect(masterGain);        // dry
+        env.connect(masterGain);
         env.connect(wet);
-        wet.connect(reverbNode);        // wet (reverb)
+        wet.connect(reverbNode);
  
-        lfo.start(startTime);
-        osc.start(startTime);
+        lfo.start(startTime); osc.start(startTime);
         osc.stop(startTime + duration + 0.05);
         lfo.stop(startTime + duration + 0.05);
       });
     }
  
-    /* ── Schedule the full ambient piece in a looping pattern ── */
     function scheduleMusic() {
       const now = audioCtx.currentTime + 0.1;
- 
-      /* ── Melody sequence ── */
       let t = now;
-      const noteDur   = 2.8;
-      const noteGap   = 3.4;
-      const noteVol   = 0.022;
+      const noteDur = 2.8, noteGap = 3.4, noteVol = 0.022;
+      MELODY.forEach((freq, i) => { playNote(freq, t + i * noteGap, noteDur, noteVol); });
  
-      MELODY.forEach((freq, i) => {
-        playNote(freq, t + i * noteGap, noteDur, noteVol);
-      });
+      const padDur = 13.0, padGap = 14.0, padVol = 0.012;
+      PADS.forEach((chord, i) => { playPad(chord, now + i * padGap, padDur, padVol); });
  
-      /* ── Pad chords — each sustains for ~12 s, cycling every 14 s ── */
-      const padDur = 13.0;
-      const padGap = 14.0;
-      const padVol = 0.012;
- 
-      PADS.forEach((chord, i) => {
-        playPad(chord, now + i * padGap, padDur, padVol);
-      });
- 
-      /* ── Re-schedule loop slightly before the sequence ends ── */
-      const loopAfter = MELODY.length * noteGap + 4;   // ~55 s
+      const loopAfter = MELODY.length * noteGap + 4;
       setTimeout(scheduleMusic, loopAfter * 1000);
     }
  
-    /* ── Fade masterGain in slowly ── */
     function fadeIn() {
       if (fadeInterval) clearInterval(fadeInterval);
       const step = TARGET_VOL / FADE_STEPS;
       const intervalMs = FADE_DURATION_MS / FADE_STEPS;
       let vol = masterGain.gain.value;
- 
       fadeInterval = setInterval(() => {
         vol = Math.min(vol + step, TARGET_VOL);
         masterGain.gain.setValueAtTime(vol, audioCtx.currentTime);
@@ -864,14 +967,12 @@
       }, intervalMs);
     }
  
-    /* ── Fade masterGain out quickly ── */
     function fadeOut(callback) {
       if (fadeInterval) clearInterval(fadeInterval);
       const steps = 40;
       const intervalMs = 600 / steps;
       let vol = masterGain.gain.value;
       const step = vol / steps;
- 
       fadeInterval = setInterval(() => {
         vol = Math.max(vol - step, 0);
         masterGain.gain.setValueAtTime(vol, audioCtx.currentTime);
@@ -882,8 +983,8 @@
       }, intervalMs);
     }
  
-    /* ── Initialise AudioContext and start music ── */
-    function startMusic() {
+    /* Exposed globally so overlay can call it */
+    window.startMusic = function() {
       if (started) return;
       started = true;
  
@@ -898,58 +999,35 @@
       scheduleMusic();
       fadeIn();
  
-      /* Show the button after music is primed */
       setTimeout(() => {
         btn.classList.add('visible', 'playing');
         btn.setAttribute('data-tooltip', 'Mute music');
       }, 1200);
+    };
+ 
+    /* ─── MUSIC OVERLAY LOGIC ────────────────────────── */
+    const overlay  = document.getElementById('music-overlay');
+    const yesBtn   = document.getElementById('overlay-yes');
+    const skipBtn  = document.getElementById('overlay-skip');
+ 
+    function dismissOverlay() {
+      overlay.classList.add('hidden');
+      setTimeout(() => overlay.remove(), 650);
     }
  
-    /* ── First interaction → start audio (browser policy) ── */
-    function onFirstInteraction() {
-      document.removeEventListener('click',     onFirstInteraction);
-      document.removeEventListener('keydown',   onFirstInteraction);
-      document.removeEventListener('touchstart',onFirstInteraction);
-      document.removeEventListener('scroll',    onFirstInteraction);
-      startMusic();
-    }
- 
-    /* Try to autoplay immediately; fall back to first interaction */
-    window.addEventListener('load', () => {
-      // Small delay so page renders first, then try silent autoplay
-      setTimeout(() => {
-        try {
-          const testCtx = new (window.AudioContext || window.webkitAudioContext)();
-          if (testCtx.state === 'running') {
-            testCtx.close();
-            startMusic();
-          } else {
-            testCtx.close();
-            // Browser blocked autoplay — wait for any user interaction
-            document.addEventListener('click',      onFirstInteraction, { once: true });
-            document.addEventListener('keydown',    onFirstInteraction, { once: true });
-            document.addEventListener('touchstart', onFirstInteraction, { once: true });
-            document.addEventListener('scroll',     onFirstInteraction, { once: true });
-          }
-        } catch(e) {
-          document.addEventListener('click',      onFirstInteraction, { once: true });
-          document.addEventListener('keydown',    onFirstInteraction, { once: true });
-          document.addEventListener('touchstart', onFirstInteraction, { once: true });
-        }
-      }, 800);
+    yesBtn.addEventListener('click', () => {
+      dismissOverlay();
+      window.startMusic();
     });
  
-    /* ── Mute / Unmute toggle ── */
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation();   // don't trigger the onFirstInteraction listener
+    skipBtn.addEventListener('click', dismissOverlay);
  
-      if (!started) {
-        startMusic();
-        return;
-      }
+    /* ─── MUTE / UNMUTE TOGGLE ───────────────────────── */
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (!started) { window.startMusic(); return; }
  
       if (!isMuted) {
-        /* Mute */
         isMuted = true;
         fadeOut();
         iconSound.style.display = 'none';
@@ -957,7 +1035,6 @@
         btn.classList.remove('playing');
         btn.setAttribute('data-tooltip', 'Unmute music');
       } else {
-        /* Unmute */
         isMuted = false;
         iconSound.style.display = 'block';
         iconMute.style.display  = 'none';
