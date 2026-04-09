@@ -6,6 +6,7 @@ import cron from "node-cron";
 import path from "path";
 import { fileURLToPath } from "url";
 import dotenv from "dotenv";
+import { createRequire } from "module";
 
 dotenv.config();
 
@@ -31,14 +32,20 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static(__dirname)); // serves index.html
+
+// ─── Serve static files from root folder ──────────────────
+app.use(express.static(__dirname));
+
+// ─── Root route → index.html ──────────────────────────────
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "index.html"));
+});
 
 // ─── POST /api/letters ────────────────────────────────────
 app.post("/api/letters", async (req, res) => {
   try {
     const { letter, email, delivery_date } = req.body;
 
-    // --- server-side validation ---
     if (!letter || typeof letter !== "string" || letter.trim().length < 20) {
       return res.status(400).json({ error: "Letter is too short." });
     }
@@ -62,7 +69,6 @@ app.post("/api/letters", async (req, res) => {
       return res.status(400).json({ error: "Delivery date must be in the future." });
     }
 
-    // --- store in Supabase ---
     const { error: dbError } = await supabase.from("letters").insert([
       {
         email:         email.trim().toLowerCase(),
@@ -115,7 +121,6 @@ function buildEmailHtml(letter, deliveryDate) {
       <td align="center" style="padding:48px 16px;">
         <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;">
 
-          <!-- Header -->
           <tr>
             <td align="center" style="padding-bottom:12px;">
               <div style="font-size:32px;color:#c9a96e;filter:drop-shadow(0 0 16px rgba(201,169,110,0.6));">✦</div>
@@ -134,7 +139,6 @@ function buildEmailHtml(letter, deliveryDate) {
             </td>
           </tr>
 
-          <!-- Title -->
           <tr>
             <td align="center" style="padding-bottom:8px;">
               <h1 style="font-family:Georgia,serif;font-weight:400;font-size:clamp(22px,4vw,32px);color:#f0e8d8;margin:0;line-height:1.3;">
@@ -150,16 +154,14 @@ function buildEmailHtml(letter, deliveryDate) {
             </td>
           </tr>
 
-          <!-- Letter body -->
           <tr>
-            <td style="background:#0d1628;border:1px solid rgba(201,169,110,0.18);border-radius:4px;padding:40px 44px;position:relative;">
+            <td style="background:#0d1628;border:1px solid rgba(201,169,110,0.18);border-radius:4px;padding:40px 44px;">
               <div style="font-family:Georgia,serif;font-size:16px;color:#f0e8d8;line-height:2;font-weight:400;">
                 ${escapedLetter}
               </div>
             </td>
           </tr>
 
-          <!-- Timestamp -->
           <tr>
             <td align="center" style="padding-top:32px;padding-bottom:48px;">
               <div style="display:inline-block;padding:10px 24px;border:1px solid rgba(201,169,110,0.2);border-radius:2px;">
@@ -170,7 +172,6 @@ function buildEmailHtml(letter, deliveryDate) {
             </td>
           </tr>
 
-          <!-- Footer -->
           <tr>
             <td align="center">
               <div style="width:60px;height:1px;background:linear-gradient(90deg,transparent,#a07d4a,transparent);margin:0 auto 20px;"></div>
@@ -190,7 +191,7 @@ function buildEmailHtml(letter, deliveryDate) {
 
 // ─── Daily cron: send due letters ─────────────────────────
 async function sendDueLetters() {
-  const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
+  const today = new Date().toISOString().split("T")[0];
   console.log(`[cron] Checking for letters due on ${today}…`);
 
   const { data: letters, error } = await supabase
@@ -222,10 +223,9 @@ async function sendDueLetters() {
 
       if (emailError) {
         console.error(`[cron] Failed to send to ${row.email}:`, emailError);
-        continue; // don't mark as sent — will retry tomorrow
+        continue;
       }
 
-      // Mark as sent
       const { error: updateError } = await supabase
         .from("letters")
         .update({ sent: true })
@@ -242,12 +242,17 @@ async function sendDueLetters() {
   }
 }
 
-// Run at 08:00 AM server time every day
-cron.schedule("0 8 * * *", sendDueLetters);
-
-// ─── Start server ──────────────────────────────────────────
+// ─── Start server (local only) ────────────────────────────
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`🌌  TimeCapsula server running on http://localhost:${PORT}`);
-  console.log(`⏰  Daily cron scheduled at 08:00 AM`);
-});
+
+// Only start the listener when running locally, not on Vercel
+if (process.env.VERCEL !== "1") {
+  cron.schedule("0 8 * * *", sendDueLetters);
+  app.listen(PORT, () => {
+    console.log(`🌌  TimeCapsula server running on http://localhost:${PORT}`);
+    console.log(`⏰  Daily cron scheduled at 08:00 AM`);
+  });
+}
+
+// ─── Export for Vercel ────────────────────────────────────
+export default app;
