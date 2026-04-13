@@ -278,4 +278,10 @@ if (process.env.VERCEL !== "1") {
  
 // ─── Export for Vercel ────────────────────────────────────
 export default app;
- 
+ app.get("/api/debug", (req, res) => {
+  res.json({
+    has_resend_key: !!process.env.RESEND_API_KEY,
+    resend_key_prefix: process.env.RESEND_API_KEY?.slice(0, 6) || "missing",
+    has_supabase_url: !!process.env.SUPABASE_URL,
+  });
+});
