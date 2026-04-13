@@ -21,7 +21,7 @@ for (const key of required) {
 // ─── Clients ──────────────────────────────────────────────
 const supabase = createClient(
   process.env.SUPABASE_URL,
-  process.env.SUPABASE_ANON_KEY
+  process.env.SUPABASE_SERVICE_KEY || process.env.SUPABASE_ANON_KEY
 );
  
 const resend = new Resend(process.env.RESEND_API_KEY);
