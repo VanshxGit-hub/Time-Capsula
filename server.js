@@ -214,7 +214,7 @@ function buildEmailHtml(letter, deliveryDate) {
 
 // ─── Daily cron: send due letters ─────────────────────────
 async function sendDueLetters() {
-  const today = new Date().toISOString().split("T")[0];
+  const today = new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Kolkata" });
   console.log(`[cron] Checking for letters due on ${today}…`);
 
   const { data: letters, error } = await supabase
